@@ -1,6 +1,6 @@
 {
   "name": "jasmine-stray-timers",
-  "version": "3.2.0",
+  "version": "0.0.0",
   "description": "Image lightbox",
   "main": "dist/jasmine-stray-timers.js",
   "scripts": {
@@ -17,5 +17,21 @@
   "bugs": {
     "url": "https://github.com/behance/jasmine-stray-timers/issues"
   },
-  "homepage": "https://github.com/behance/jasmine-stray-timers#readme"
+  "homepage": "https://github.com/behance/jasmine-stray-timers#readme",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-behance": "^2.0.0",
+    "eslint": "^3.5.0",
+    "eslint-plugin-behance": "^1.0.0",
+    "eslint-preset-behance": "^4.0.0",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-webpack": "^1.8.0",
+    "webpack": "^2.1.0-beta.25"
+  }
 }

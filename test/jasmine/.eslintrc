@@ -2,9 +2,5 @@
   "extends": "../../.eslintrc",
   "env": {
     "jasmine": true
-  },
-  "globals": {
-    "setStyleFixtures": true,
-    "affix": true
   }
 }
