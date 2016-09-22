@@ -1,7 +1,7 @@
 {
   "name": "jasmine-stray-timers",
   "version": "0.0.0",
-  "description": "Image lightbox",
+  "description": "Jasmine test helper for detecting setTimeout and setInterval usage outside of test boundaries",
   "main": "dist/jasmine-stray-timers.js",
   "scripts": {
     "test": "npm run eslint && npm run karma -- --single-run",
