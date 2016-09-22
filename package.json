@@ -1,0 +1,21 @@
+{
+  "name": "jasmine-stray-timers",
+  "version": "3.2.0",
+  "description": "Image lightbox",
+  "main": "dist/jasmine-stray-timers.js",
+  "scripts": {
+    "test": "npm run eslint && npm run karma -- --single-run",
+    "eslint": "eslint src/**/*.js test/**/*.js",
+    "karma": "karma start test/karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/behance/jasmine-stray-timers.git"
+  },
+  "author": "Wei Kin Huang <weikin.huang04@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/behance/jasmine-stray-timers/issues"
+  },
+  "homepage": "https://github.com/behance/jasmine-stray-timers#readme"
+}
