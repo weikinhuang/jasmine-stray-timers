@@ -5,7 +5,7 @@
   "main": "dist/jasmine-stray-timers.js",
   "scripts": {
     "test": "npm run eslint && npm run karma -- --single-run --reporters=progress,coverage",
-    "test:dev": "npm run karma -- --single-run --reporters=mocha,coverage",
+    "test:dev": "npm run karma -- --reporters=mocha,coverage",
     "eslint": "eslint src/**/*.js test/**/*.js",
     "karma": "cross-env NODE_ENV=test karma start"
   },

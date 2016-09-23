@@ -3,6 +3,9 @@ const realClearTimeout = window.clearTimeout;
 const realSetInterval = window.setInterval;
 const realClearInterval = window.clearInterval;
 
+// export real timers for testing
+export { realSetTimeout, realSetInterval };
+
 var runningTimeouts = [];
 var runningIntervals = [];
 
@@ -23,11 +26,12 @@ function removeTimeout(timerId) {
  * @returns {Number}
  */
 function localSetTimeout(fn, ...timerArgs) {
+  if (typeof fn === 'string') {
+    throw new Error('String function arguments for "setTimeout" cannot be executed.');
+  }
+
   let timerId;
   const timerFn = function(...args) {
-    if (typeof fn === 'string') {
-      throw new Error('String function arguments for "setTimeout" cannot be executed.');
-    }
     removeTimeout(timerId);
     return fn.apply(this, args);
   };
@@ -143,29 +147,4 @@ export function detectStrayTimers() {
     let firstStrayTimer = strayTimers.shift();
     throw firstStrayTimer.err;
   }
-}
-
-/**
- * Override the jasmine clock so that we install and uninstall the internal timers
- * jasmine clock relies on having access to the original timer functions
- *
- * @param {Function} originalJasmineClock
- * @return {Function}
- */
-export function overrideJasmineClock(originalJasmineClock) {
-  return function() {
-    const clock = originalJasmineClock();
-    const originalInstall = clock.install;
-    const originalUninstall = clock.uninstall;
-    clock.install = function() {
-      uninstall();
-      return originalInstall.apply(this, arguments);
-    };
-    clock.uninstall = function() {
-      const ret = originalUninstall.apply(this, arguments);
-      install();
-      return ret;
-    };
-    return clock;
-  };
 }
