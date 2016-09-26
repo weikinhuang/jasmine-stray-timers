@@ -33,9 +33,6 @@ module.exports = function(config) {
 
 If test code executed a timer and didn't wait for it to resolve before ending the test, it will throw an error.
 
-Due to the nature of how async timer execution works, if a timer is set up within an `Promise`, this
-cannot reliably determine the exact test that triggered the timer.
-
 ```javascript
 // src.js
 export function foo(a) {
@@ -69,6 +66,41 @@ PhantomJS 2.1.1 (Mac OS X 0.0.0) foo bar FAILED
        bar
        loaded@http://localhost:9876/context.js:151:17
 PhantomJS 2.1.1 (Mac OS X 0.0.0): Executed 1 of 1 (1 FAILED) (skipped 10) ERROR (0.005 secs / 0.001 secs)
+```
+
+## Caveat
+
+Due to the nature of how async javascript execution works, if a timer is set up within another async operation (eg. `Promise`), this library
+cannot reliably determine the exact test that triggered the timer.
+
+In this case, the error will be triggered in an subsequent test in which the async operation resolved.
+
+```javascript
+// src.js
+export function foo(a) {
+  window.fetch('some url')
+    .then(function() {
+      setTimeout(function() {
+        // do something async
+      }, 100);
+    });
+  return a + 1;
+}
+```
+
+```javascript
+// test.js
+import './src';
+
+describe('foo', function() {
+  it('test 1', function() {
+    expect(foo(1)).toEqual(2);
+  });
+
+  it('test 2', function() {
+    expect(2).toEqual(2);
+  });
+});
 ```
 
 ## License
