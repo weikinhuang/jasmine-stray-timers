@@ -7,7 +7,9 @@
     "test": "npm run eslint && npm run karma -- --single-run --reporters=progress,coverage",
     "test:dev": "npm run karma -- --reporters=mocha,coverage",
     "eslint": "eslint src/**/*.js test/**/*.js",
-    "karma": "cross-env NODE_ENV=test karma start"
+    "karma": "cross-env NODE_ENV=test karma start",
+    "webpack": "webpack --progress --color",
+    "preversion": "npm run webpack && git add dist"
   },
   "repository": {
     "type": "git",
