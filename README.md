@@ -31,7 +31,7 @@ module.exports = function(config) {
 
 ## Output
 
-If test code executed a timer and didn't wait for it to resolve before ending the test. It will throw an error.
+If test code executed a timer and didn't wait for it to resolve before ending the test, it will throw an error.
 
 Due to the nature of how async timer execution works, if a timer is set up within an `Promise`, this
 cannot reliably determine the exact test that triggered the timer.
@@ -39,7 +39,9 @@ cannot reliably determine the exact test that triggered the timer.
 ```javascript
 // src.js
 export function foo(a) {
-  setTimeout(function() {}, 100);
+  setTimeout(function() {
+    // do something async
+  }, 100);
   return a + 1;
 }
 
