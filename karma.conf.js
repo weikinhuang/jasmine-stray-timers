@@ -1,4 +1,5 @@
 /* eslint-env node */
+const webpackConfig = require('./webpack.config');
 
 module.exports = function(config) {
   config.set({
@@ -16,14 +17,7 @@ module.exports = function(config) {
       'test/jasmine/**/*.js': ['webpack']
     },
 
-    webpack: {
-      module: {
-        rules: [
-          { test: /\.js$/, loader: 'babel' }
-        ]
-      },
-      plugins: []
-    },
+    webpack: webpackConfig,
 
     webpackMiddleware: {
       noInfo: true,
@@ -53,6 +47,10 @@ module.exports = function(config) {
     singleRun: false,
 
     concurrency: Infinity,
+
+    mochaReporter: {
+      ignoreSkipped: true
+    },
 
     coverageReporter: {
       reporters: [
