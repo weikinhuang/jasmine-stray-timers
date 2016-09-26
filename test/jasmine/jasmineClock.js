@@ -15,7 +15,7 @@ describe('jasmineClock', function() {
     jasmine.clock().uninstall();
   });
 
-  it('#overrideJasmineClock should work as the without throws', function(done) {
+  it('#overrideJasmineClock should work as intended with jasmine.clock', function(done) {
     const spy = jasmine.createSpy('timeout callback');
     setTimeout(spy, 15);
 
@@ -27,7 +27,7 @@ describe('jasmineClock', function() {
     realSetTimeout(done, 25);
   });
 
-  it('#overrideJasmineClock should work as the without throws', function(done) {
+  it('#overrideJasmineClock should work as intended and not throw due to jasmine.clock', function(done) {
     const spy = jasmine.createSpy('timeout callback');
     setTimeout(spy, 25);
 

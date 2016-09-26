@@ -10,7 +10,7 @@ var runningTimeouts = [];
 var runningIntervals = [];
 
 /**
- * Mark an timer as executed inside the test constraints
+ * Mark a timer as executed inside the test constraints
  *
  * @param {Number} timerId
  */
