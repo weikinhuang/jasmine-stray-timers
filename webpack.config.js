@@ -6,7 +6,7 @@ module.exports = {
     main: './src/index.js'
   },
   output: {
-    filename: 'app.js',
+    filename: 'jasmine-stray-timers.js',
     path: './dist/'
   },
   target: 'web',
