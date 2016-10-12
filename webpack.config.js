@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'inline-source-map',
   entry: {
     main: './src/index.js'
   },
