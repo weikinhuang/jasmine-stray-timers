@@ -1,4 +1,4 @@
-# jasmine-stray-timers [![Build Status](https://travis-ci.org/behance/jasmine-stray-timers.svg?branch=master)](https://travis-ci.org/behance/jasmine-stray-timers)
+# jasmine-stray-timers [![npm](https://img.shields.io/npm/v/jasmine-stray-timers.svg)](https://www.npmjs.com/package/jasmine-stray-timers) [![Build Status](https://travis-ci.org/behance/jasmine-stray-timers.svg?branch=master)](https://travis-ci.org/behance/jasmine-stray-timers)
 
 Jasmine test helper for detecting `setTimeout` and `setInterval` usage outside of test boundaries.
 
