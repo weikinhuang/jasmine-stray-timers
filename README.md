@@ -49,7 +49,7 @@ export function bar() {
 
 ```javascript
 // test.js
-import './src';
+import { bar } from './src';
 
 describe('foo', function() {
   it('bar', function() {
