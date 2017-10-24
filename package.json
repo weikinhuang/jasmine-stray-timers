@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run eslint && npm run karma -- --single-run --reporters=progress,coverage",
     "test:dev": "npm run karma -- --reporters=mocha,coverage",
-    "eslint": "eslint src/**/*.js test/**/*.js",
+    "eslint": "eslint 'src/**/*.js' 'test/**/*.js' '*.js'",
     "karma": "cross-env NODE_ENV=test karma start",
     "webpack": "webpack --progress --color",
     "preversion": "npm run webpack && git add dist"
@@ -22,20 +22,20 @@
   },
   "homepage": "https://github.com/behance/jasmine-stray-timers#readme",
   "devDependencies": {
-    "babel-core": "^6.14.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-behance": "^3.1.0",
-    "cross-env": "^3.1.2",
-    "eslint": "^3.5.0",
-    "eslint-plugin-behance": "^1.0.0",
-    "eslint-preset-behance": "^4.0.0",
-    "jasmine-core": "^2.5.2",
-    "karma": "^1.3.0",
+    "babel-core": "7.0.0-beta.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-behance": "^16.0.2",
+    "cross-env": "^5.1.0",
+    "eslint": "^4.9.0",
+    "eslint-plugin-behance": "^1.1.2",
+    "eslint-preset-behance": "^9.0.1",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.0.2",
-    "karma-mocha-reporter": "^2.2.0",
+    "karma-mocha-reporter": "^2.2.5",
     "karma-phantomjs-launcher": "^1.0.2",
-    "karma-webpack": "^1.8.0",
-    "webpack": "^2.1.0-beta.25"
+    "karma-webpack": "^2.0.5",
+    "webpack": "^3.8.1"
   }
 }

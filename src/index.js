@@ -3,7 +3,7 @@
 import {
   install,
   uninstall,
-  detectStrayTimers
+  detectStrayTimers,
 } from './timers';
 
 import { overrideJasmineClock } from './jasmineClock';

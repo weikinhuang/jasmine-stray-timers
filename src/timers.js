@@ -6,8 +6,8 @@ const realClearInterval = window.clearInterval;
 // export real timers for testing
 export { realSetTimeout, realSetInterval };
 
-var runningTimeouts = [];
-var runningIntervals = [];
+let runningTimeouts = [];
+let runningIntervals = [];
 
 /**
  * Mark a timer as executed inside the test constraints
@@ -30,7 +30,7 @@ function localSetTimeout(fn, ...timerArgs) {
     throw new Error('String function arguments for "setTimeout" cannot be executed.');
   }
 
-  let timerId;
+  let timerId; // eslint-disable-line prefer-const
   const timerFn = function(...args) {
     removeTimeout(timerId);
     return fn.apply(this, args);
@@ -46,7 +46,7 @@ function localSetTimeout(fn, ...timerArgs) {
   }
   runningTimeouts.push({
     id: timerId,
-    err
+    err,
   });
   return timerId;
 }
@@ -77,7 +77,7 @@ function removeInterval(timerId) {
  * @returns {Number}
  */
 function localSetInterval() {
-  let timerId = realSetInterval.apply(this, arguments);
+  const timerId = realSetInterval.apply(this, arguments);
   // must throw the error for PhantomJS to generate the stack trace
   let err;
   try {
@@ -88,7 +88,7 @@ function localSetInterval() {
   }
   runningIntervals.push({
     id: timerId,
-    err
+    err,
   });
   return timerId;
 }
@@ -144,7 +144,7 @@ export function detectStrayTimers() {
   runningIntervals = [];
 
   if (strayTimers.length > 0) {
-    let firstStrayTimer = strayTimers.shift();
+    const firstStrayTimer = strayTimers.shift();
     throw firstStrayTimer.err;
   }
 }

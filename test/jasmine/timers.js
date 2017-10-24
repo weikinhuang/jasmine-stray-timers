@@ -2,7 +2,7 @@ import {
   install,
   uninstall,
   detectStrayTimers,
-  realSetTimeout
+  realSetTimeout,
 } from '../../src/timers';
 
 describe('timers', function() {
@@ -81,7 +81,7 @@ describe('timers', function() {
       });
 
       it('should not throw if timers cleared within test', function(done) {
-        let timerId;
+        let timerId; // eslint-disable-line prefer-const
         const spy = jasmine.createSpy('timeout callback', () => clearInterval(timerId)).and.callThrough();
         timerId = setInterval(spy, 10);
 
