@@ -1,6 +1,6 @@
 {
   "name": "jasmine-stray-timers",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Jasmine test helper for detecting setTimeout and setInterval usage outside of test boundaries",
   "main": "dist/jasmine-stray-timers.js",
   "scripts": {
