@@ -6,15 +6,15 @@ module.exports = function(config) {
     basePath: '.',
 
     frameworks: [
-      'jasmine'
+      'jasmine',
     ],
 
     files: [
-      './test/jasmine/**/*.js'
+      './test/jasmine/**/*.js',
     ],
 
     preprocessors: {
-      'test/jasmine/**/*.js': ['webpack']
+      'test/jasmine/**/*.js': ['webpack'],
     },
 
     webpack: webpackConfig,
@@ -26,8 +26,8 @@ module.exports = function(config) {
         version: false,
         assets: false,
         chunks: false,
-        chunkModules: false
-      }
+        chunkModules: false,
+      },
     },
 
     reporters: ['progress', 'coverage'],
@@ -49,19 +49,19 @@ module.exports = function(config) {
     concurrency: Infinity,
 
     mochaReporter: {
-      ignoreSkipped: true
+      ignoreSkipped: true,
     },
 
     coverageReporter: {
       reporters: [
         {
-          type: 'text-summary'
+          type: 'text-summary',
         },
         {
           type: 'html',
-          dir: 'coverage/'
-        }
-      ]
-    }
+          dir: 'coverage/',
+        },
+      ],
+    },
   });
 };

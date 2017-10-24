@@ -6,8 +6,8 @@ const realClearInterval = window.clearInterval;
 // export real timers for testing
 export { realSetTimeout, realSetInterval };
 
-var runningTimeouts = [];
-var runningIntervals = [];
+let runningTimeouts = [];
+let runningIntervals = [];
 
 /**
  * Mark a timer as executed inside the test constraints
@@ -30,7 +30,7 @@ function localSetTimeout(fn, ...timerArgs) {
     throw new Error('String function arguments for "setTimeout" cannot be executed.');
   }
 
-  let timerId;
+  let timerId; // eslint-disable-line prefer-const
   const timerFn = function(...args) {
     removeTimeout(timerId);
     return fn.apply(this, args);
@@ -46,7 +46,7 @@ function localSetTimeout(fn, ...timerArgs) {
   }
   runningTimeouts.push({
     id: timerId,
-    err
+    err,
   });
   return timerId;
 }
@@ -77,7 +77,7 @@ function removeInterval(timerId) {
  * @returns {Number}
  */
 function localSetInterval() {
-  let timerId = realSetInterval.apply(this, arguments);
+  const timerId = realSetInterval.apply(this, arguments);
   // must throw the error for PhantomJS to generate the stack trace
   let err;
   try {
@@ -88,7 +88,7 @@ function localSetInterval() {
   }
   runningIntervals.push({
     id: timerId,
-    err
+    err,
   });
   return timerId;
 }
@@ -109,20 +109,47 @@ function localClearInterval(timerId) {
  * Override the timer functions with the tested functions
  */
 export function install() {
-  window.setTimeout = localSetTimeout;
-  window.clearTimeout = localClearTimeout;
-  window.setInterval = localSetInterval;
-  window.clearInterval = localClearInterval;
+  const map = {
+    setTimeout: localSetTimeout,
+    clearTimeout: localClearTimeout,
+    setInterval: localSetInterval,
+    clearInterval: localClearInterval,
+  };
+  Object.keys(map).forEach((fn) => {
+    const descriptor = Object.getOwnPropertyDescriptor(window, fn);
+    descriptor.value = map[fn];
+    Object.defineProperty(window, fn, descriptor);
+  });
 }
 
 /**
  * Restore the original timer functions
  */
 export function uninstall() {
-  window.setTimeout = realSetTimeout;
-  window.clearTimeout = realClearTimeout;
-  window.setInterval = realSetInterval;
-  window.clearInterval = realClearInterval;
+  const map = {
+    setTimeout: realSetTimeout,
+    clearTimeout: realClearTimeout,
+    setInterval: realSetInterval,
+    clearInterval: realClearInterval,
+  };
+  Object.keys(map).forEach((fn) => {
+    const descriptor = Object.getOwnPropertyDescriptor(window, fn);
+    descriptor.value = map[fn];
+    Object.defineProperty(window, fn, descriptor);
+  });
+}
+
+/**
+ * Set up jasmine instance variable for ignoring promises
+ */
+export function setupTimerDetection() {
+  this._ignoreStrayTimers = () => {
+    this.__strayTimersIgnored = true;
+  };
+
+  this._onlyWarnOnStrayTimers = () => {
+    this.__onlyWarnOnStrayTimers = true;
+  };
 }
 
 /**
@@ -143,8 +170,16 @@ export function detectStrayTimers() {
   runningTimeouts = [];
   runningIntervals = [];
 
+  if (this.__strayTimersIgnored) {
+    return;
+  }
+
   if (strayTimers.length > 0) {
-    let firstStrayTimer = strayTimers.shift();
+    const firstStrayTimer = strayTimers.shift();
+    if (this.__onlyWarnOnStrayTimers) {
+      console.warn(firstStrayTimer.err.message);
+      return;
+    }
     throw firstStrayTimer.err;
   }
 }
