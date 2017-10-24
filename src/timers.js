@@ -109,20 +109,47 @@ function localClearInterval(timerId) {
  * Override the timer functions with the tested functions
  */
 export function install() {
-  window.setTimeout = localSetTimeout;
-  window.clearTimeout = localClearTimeout;
-  window.setInterval = localSetInterval;
-  window.clearInterval = localClearInterval;
+  const map = {
+    setTimeout: localSetTimeout,
+    clearTimeout: localClearTimeout,
+    setInterval: localSetInterval,
+    clearInterval: localClearInterval,
+  };
+  Object.keys(map).forEach((fn) => {
+    const descriptor = Object.getOwnPropertyDescriptor(window, fn);
+    descriptor.value = map[fn];
+    Object.defineProperty(window, fn, descriptor);
+  });
 }
 
 /**
  * Restore the original timer functions
  */
 export function uninstall() {
-  window.setTimeout = realSetTimeout;
-  window.clearTimeout = realClearTimeout;
-  window.setInterval = realSetInterval;
-  window.clearInterval = realClearInterval;
+  const map = {
+    setTimeout: realSetTimeout,
+    clearTimeout: realClearTimeout,
+    setInterval: realSetInterval,
+    clearInterval: realClearInterval,
+  };
+  Object.keys(map).forEach((fn) => {
+    const descriptor = Object.getOwnPropertyDescriptor(window, fn);
+    descriptor.value = map[fn];
+    Object.defineProperty(window, fn, descriptor);
+  });
+}
+
+/**
+ * Set up jasmine instance variable for ignoring promises
+ */
+export function setupTimerDetection() {
+  this._ignoreStrayTimers = () => {
+    this.__strayTimersIgnored = true;
+  };
+
+  this._onlyWarnStrayTimers = () => {
+    this.__onlyWarnStrayTimers = true;
+  };
 }
 
 /**
@@ -143,8 +170,16 @@ export function detectStrayTimers() {
   runningTimeouts = [];
   runningIntervals = [];
 
+  if (this.__strayTimersIgnored) {
+    return;
+  }
+
   if (strayTimers.length > 0) {
     const firstStrayTimer = strayTimers.shift();
+    if (this.__onlyWarnStrayTimers) {
+      console.warn(firstStrayTimer.err.message);
+      return;
+    }
     throw firstStrayTimer.err;
   }
 }

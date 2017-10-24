@@ -4,6 +4,7 @@ import {
   install,
   uninstall,
   detectStrayTimers,
+  setupTimerDetection,
 } from './timers';
 
 import { overrideJasmineClock } from './jasmineClock';
@@ -15,6 +16,8 @@ jasmine.clock = overrideJasmineClock(jasmine.clock);
 beforeAll(install);
 
 afterAll(uninstall);
+
+beforeEach(setupTimerDetection);
 
 beforeEach(detectStrayTimers);
 

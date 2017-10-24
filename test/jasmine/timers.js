@@ -2,6 +2,7 @@ import {
   install,
   uninstall,
   detectStrayTimers,
+  setupTimerDetection,
   realSetTimeout,
 } from '../../src/timers';
 
@@ -43,7 +44,7 @@ describe('timers', function() {
       it('should throw if timers executed outside of test', function() {
         setTimeout(() => {}, 10);
         expect(() => {
-          detectStrayTimers();
+          detectStrayTimers.call(this);
         }).toThrowError(/"setTimeout"/);
       });
 
@@ -54,7 +55,7 @@ describe('timers', function() {
         realSetTimeout(() => {
           expect(spy).toHaveBeenCalled();
           expect(() => {
-            detectStrayTimers();
+            detectStrayTimers.call(this);
           }).not.toThrowError(/"setTimeout"/);
           done();
         }, 15);
@@ -67,8 +68,28 @@ describe('timers', function() {
 
         expect(spy).not.toHaveBeenCalled();
         expect(() => {
-          detectStrayTimers();
+          detectStrayTimers.call(this);
         }).not.toThrowError(/"setTimeout"/);
+      });
+
+      it('should not throw if timers executed outside of test and error ignored', function() {
+        setupTimerDetection.call(this);
+        this._ignoreStrayTimers();
+        setTimeout(() => {}, 10);
+        expect(() => {
+          detectStrayTimers.call(this);
+        }).not.toThrowError(/"setTimeout"/);
+      });
+
+      it('should not throw and warn if timers executed outside of test and error ignored', function() {
+        spyOn(console, 'warn').and.callThrough();
+        setupTimerDetection.call(this);
+        this._onlyWarnStrayTimers();
+        setTimeout(() => {}, 10);
+        expect(() => {
+          detectStrayTimers.call(this);
+        }).not.toThrowError(/"setTimeout"/);
+        expect(console.warn).toHaveBeenCalledWith('Stray "setTimeout" call was executed outside the test constraints');
       });
     });
 
@@ -76,7 +97,7 @@ describe('timers', function() {
       it('should throw if timers executed outside of test', function() {
         setInterval(() => {}, 10);
         expect(() => {
-          detectStrayTimers();
+          detectStrayTimers.call(this);
         }).toThrowError(/"setInterval"/);
       });
 
@@ -88,10 +109,30 @@ describe('timers', function() {
         realSetTimeout(() => {
           expect(spy).toHaveBeenCalled();
           expect(() => {
-            detectStrayTimers();
+            detectStrayTimers.call(this);
           }).not.toThrowError(/"setInterval"/);
           done();
         }, 15);
+      });
+
+      it('should not throw if timers executed outside of test and error ignored', function() {
+        setupTimerDetection.call(this);
+        this._ignoreStrayTimers();
+        setInterval(() => {}, 10);
+        expect(() => {
+          detectStrayTimers.call(this);
+        }).not.toThrowError(/"setInterval"/);
+      });
+
+      it('should not throw and warn if timers executed outside of test and error ignored', function() {
+        spyOn(console, 'warn').and.callThrough();
+        setupTimerDetection.call(this);
+        this._onlyWarnStrayTimers();
+        setInterval(() => {}, 10);
+        expect(() => {
+          detectStrayTimers.call(this);
+        }).not.toThrowError(/"setInterval"/);
+        expect(console.warn).toHaveBeenCalledWith('Stray "setInterval" call was executed outside the test constraints');
       });
     });
   });
