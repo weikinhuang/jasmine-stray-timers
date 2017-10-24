@@ -84,7 +84,7 @@ describe('timers', function() {
       it('should not throw and warn if timers executed outside of test and error ignored', function() {
         spyOn(console, 'warn').and.callThrough();
         setupTimerDetection.call(this);
-        this._onlyWarnStrayTimers();
+        this._onlyWarnOnStrayTimers();
         setTimeout(() => {}, 10);
         expect(() => {
           detectStrayTimers.call(this);
@@ -127,7 +127,7 @@ describe('timers', function() {
       it('should not throw and warn if timers executed outside of test and error ignored', function() {
         spyOn(console, 'warn').and.callThrough();
         setupTimerDetection.call(this);
-        this._onlyWarnStrayTimers();
+        this._onlyWarnOnStrayTimers();
         setInterval(() => {}, 10);
         expect(() => {
           detectStrayTimers.call(this);

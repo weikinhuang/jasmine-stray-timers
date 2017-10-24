@@ -29,6 +29,48 @@ module.exports = function(config) {
 };
 ```
 
+#### Ignoring stray timers in a test
+
+Stray timers can be ignored in a single test or in a suite by calling `this._ignoreStrayTimers` in the jasmine test context.
+
+```javascript
+export function foo(a) {
+  setTimeout(function() {
+    // do something async
+  }, 100);
+  return a + 1;
+}
+
+describe('foo', function() {
+  it('bar', function() {
+    this._ignoreStrayTimers();
+
+    expect(bar()).toEqual(2);
+  });
+});
+```
+
+#### Only print warning on stray timers in a test
+
+Stray timers can be ignored, and an error can be printed in a single test or in a suite by calling `this._onlyWarnOnStrayTimers` in the jasmine test context.
+
+```javascript
+export function foo(a) {
+  setTimeout(function() {
+    // do something async
+  }, 100);
+  return a + 1;
+}
+
+describe('foo', function() {
+  it('bar', function() {
+    this._onlyWarnOnStrayTimers();
+
+    expect(bar()).toEqual(2);
+  });
+});
+```
+
 ## Output
 
 If test code executed a timer and didn't wait for it to resolve before ending the test, it will throw an error.

@@ -147,8 +147,8 @@ export function setupTimerDetection() {
     this.__strayTimersIgnored = true;
   };
 
-  this._onlyWarnStrayTimers = () => {
-    this.__onlyWarnStrayTimers = true;
+  this._onlyWarnOnStrayTimers = () => {
+    this.__onlyWarnOnStrayTimers = true;
   };
 }
 
@@ -176,7 +176,7 @@ export function detectStrayTimers() {
 
   if (strayTimers.length > 0) {
     const firstStrayTimer = strayTimers.shift();
-    if (this.__onlyWarnStrayTimers) {
+    if (this.__onlyWarnOnStrayTimers) {
       console.warn(firstStrayTimer.err.message);
       return;
     }
